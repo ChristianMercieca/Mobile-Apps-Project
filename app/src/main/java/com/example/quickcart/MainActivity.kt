@@ -1,47 +1,48 @@
 package com.example.quickcart
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.quickcart.ui.theme.QuickCartTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
+    private var toggleDarkMode: ((Boolean) -> Unit)? = null
+    private var _darkModeState: MutableState<Boolean>? = null
+
+    fun setDarkMode(enabled: Boolean) {
+        toggleDarkMode?.invoke(enabled)
+    }
+
+    fun isDarkModeEnabled(): Boolean = _darkModeState?.value == true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
-            QuickCartTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            var isDarkMode = remember { mutableStateOf(false) }
+            _darkModeState = isDarkMode
+            toggleDarkMode = {isDarkMode.value = it}
+            QuickCartTheme(darkTheme = isDarkMode.value) {
+                //Initialise database
+                val context = applicationContext
+                val db = QuickCartDatabase.getDatabase(context)
+                val itemDao = db.itemDao()
+                val historyDao = db.historyDao()
+
+                val factory = ShoppingListViewModelFactory(itemDao, historyDao)
+                val viewModel: ShoppingListViewModel = viewModel(factory = factory)
+                val navController = rememberNavController()
+
+                //Load main screen including routes
+                MainScreen(navController = navController, viewModel = viewModel)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    QuickCartTheme {
-        Greeting("Android")
     }
 }
