@@ -1,4 +1,4 @@
-package com.example.quickcart
+package screens
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -19,6 +19,10 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import android.view.View
+import com.example.quickcart.BottomNavigationBar
+import com.example.quickcart.NavigationItem
+import screens.SettingsFragment
+import viewModel.ShoppingListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

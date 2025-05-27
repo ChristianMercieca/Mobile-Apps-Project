@@ -1,6 +1,8 @@
-package com.example.quickcart
+package database
 
 import androidx.room.*
+import models.Item
+import models.ShopHistory
 import kotlinx.coroutines.flow.Flow
 
 //Set daos to be used, with their respective functions and queries

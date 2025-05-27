@@ -1,5 +1,6 @@
-package com.example.quickcart
+package screens
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,6 +18,9 @@ import androidx.core.content.FileProvider
 import kotlinx.coroutines.launch
 import java.io.File
 import android.widget.Toast
+import models.Item
+import models.ShopHistory
+import viewModel.ShoppingListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -145,7 +149,7 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel) {
                                     showReceiptDialog.value = false
                                     if (ContextCompat.checkSelfPermission(
                                             context,
-                                            android.Manifest.permission.CAMERA
+                                            Manifest.permission.CAMERA
                                         ) == PackageManager.PERMISSION_GRANTED
                                     ) {
                                         //Save photo as file
@@ -162,7 +166,7 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel) {
                                         photoUri.value = uri
                                         cameraLauncher.launch(uri)
                                     } else {
-                                        cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+                                        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
                                     }
                                 },
                                 modifier = Modifier.fillMaxWidth()

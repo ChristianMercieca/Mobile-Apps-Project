@@ -10,6 +10,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.quickcart.ui.theme.QuickCartTheme
+import database.QuickCartDatabase
+import screens.MainScreen
+import viewModel.ShoppingListViewModel
+import viewModel.ShoppingListViewModelFactory
 
 class MainActivity : FragmentActivity() {
     private var toggleDarkMode: ((Boolean) -> Unit)? = null

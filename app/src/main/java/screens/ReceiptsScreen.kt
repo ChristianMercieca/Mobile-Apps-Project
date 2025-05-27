@@ -1,4 +1,4 @@
-package com.example.quickcart
+package screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import viewModel.ShoppingListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

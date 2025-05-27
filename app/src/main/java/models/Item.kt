@@ -1,4 +1,4 @@
-package com.example.quickcart
+package models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
