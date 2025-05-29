@@ -16,6 +16,8 @@ import viewModel.ShoppingListViewModel
 import viewModel.ShoppingListViewModelFactory
 
 class MainActivity : FragmentActivity() {
+
+    //Handle switching to dark mode
     private var toggleDarkMode: ((Boolean) -> Unit)? = null
     private var _darkModeState: MutableState<Boolean>? = null
 
@@ -23,6 +25,7 @@ class MainActivity : FragmentActivity() {
         toggleDarkMode?.invoke(enabled)
     }
 
+    //Function used by settings fragment to check if dark mode is on
     fun isDarkModeEnabled(): Boolean = _darkModeState?.value == true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,14 +37,17 @@ class MainActivity : FragmentActivity() {
             _darkModeState = isDarkMode
             toggleDarkMode = {isDarkMode.value = it}
             QuickCartTheme(darkTheme = isDarkMode.value) {
-                //Initialise database
+                //Initialise database and daos
                 val context = applicationContext
                 val db = QuickCartDatabase.getDatabase(context)
                 val itemDao = db.itemDao()
                 val historyDao = db.historyDao()
 
+                //Create viewModel using the factory
                 val factory = ShoppingListViewModelFactory(itemDao, historyDao)
                 val viewModel: ShoppingListViewModel = viewModel(factory = factory)
+
+                //Set up navigation
                 val navController = rememberNavController()
 
                 //Load main screen including routes

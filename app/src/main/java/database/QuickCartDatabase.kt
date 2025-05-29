@@ -14,6 +14,7 @@ import models.ShopHistory
     exportSchema = false
 )
 abstract class QuickCartDatabase : RoomDatabase() {
+    //Access points for daos
     abstract fun itemDao(): ItemDao
     abstract fun historyDao(): HistoryDao
 
@@ -21,6 +22,7 @@ abstract class QuickCartDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: QuickCartDatabase? = null
 
+        //Return instance of the database
         fun getDatabase(context: Context): QuickCartDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
